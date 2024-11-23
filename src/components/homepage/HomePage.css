@@ -1,0 +1,90 @@
+/* HomePage.css */
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://source.unsplash.com/1920x1080/?technology,code') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .home-page {
+    padding: 20px;
+    max-width: 600px;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.9); /* Semi-transparent white overlay */
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .home-page h2 {
+    font-size: 28px;
+    color: #4a90e2;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .home-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 0 25px;
+  }
+  
+  .home-page label {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .home-page input {
+    padding: 15px;
+    font-size: 16px;
+    border: 2px solid #4a90e2;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #f7f9fc;
+    transition: all 0.3s ease;
+  }
+  
+  .home-page input:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.4);
+    outline: none;
+  }
+  
+  .home-page button {
+    padding: 12px 20px;
+    font-size: 18px;
+    color: #fff;
+    background: linear-gradient(90deg, #2980b9, #6dd5fa);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 15px rgba(41, 128, 185, 0.4);
+  }
+  
+  .home-page button:hover {
+    background: linear-gradient(90deg, #6dd5fa, #2980b9);
+  }
+  
+  .home-page footer {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #2c3e50;
+  }
+  
+  .home-page footer a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .home-page footer a:hover {
+    text-decoration: underline;
+  }
+  

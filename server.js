@@ -1,46 +1,53 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
+const { Server } = require("socket.io");
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
-
-app.get("/", (req, res) => {
-  res.send("Collaborative Editor");
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000", // Allow your frontend origin
+    methods: ["GET", "POST"],
+  },
 });
 
-// Store rooms and associated users
-const rooms = {};
+const roomData = {}; // Store code and input for each room
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log(`User connected: ${socket.id}`);
 
-  // Handle room join
   socket.on("join-room", (roomId) => {
     socket.join(roomId);
-    console.log(`User joined room: ${roomId}`);
+    console.log(`User ${socket.id} joined room: ${roomId}`);
 
-    // Broadcast to all users in the room
-    socket.to(roomId).emit("user-connected", socket.id);
+    // Send the current room state to the new user
+    if (roomData[roomId]) {
+      socket.emit("code-update", roomData[roomId].code || "// Write your code here");
+      socket.emit("input-update", roomData[roomId].input || "");
+    } else {
+      roomData[roomId] = { code: "// Write your code here", input: "" };
+    }
   });
 
-  // Listen for code changes and broadcast to others in the same room
   socket.on("code-change", (roomId, code) => {
-    socket.to(roomId).emit("code-update", code);
+    if (roomData[roomId]) {
+      roomData[roomId].code = code; // Update room code
+      socket.to(roomId).emit("code-update", code); // Broadcast to others in the room
+    }
   });
 
-  // Listen for input changes and broadcast to others in the same room
   socket.on("input-change", (roomId, input) => {
-    socket.to(roomId).emit("input-update", input);
+    if (roomData[roomId]) {
+      roomData[roomId].input = input; // Update room input
+      socket.to(roomId).emit("input-update", input); // Broadcast to others in the room
+    }
   });
 
-  // Handle user disconnect
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
+    console.log(`User disconnected: ${socket.id}`);
   });
 });
 
 server.listen(3001, () => {
-  console.log("Server running on http://localhost:3001");
+  console.log("Server is running on http://localhost:3001");
 });

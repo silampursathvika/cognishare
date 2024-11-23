@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './HomePage.css'; // Import the updated CSS file
 
 const HomePage = () => {
   const [name, setName] = useState('');
@@ -9,20 +10,19 @@ const HomePage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && roomId) {
-      // Redirect to editor page with roomId and name as parameters
-      navigate(`/editor/${roomId}/${name}`);
+      navigate(`/editor/${roomId}`);
     } else {
       alert("Please enter both room ID and name!");
     }
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
-      <h2>Join or Create a Collaborative Room</h2>
+    <div className="home-page">
+      <h2>Collaborative Coding Room</h2>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="name">Your Name: </label>
+        <div className="form-group">
+          <label htmlFor="name">Your Name</label>
           <input
             type="text"
             id="name"
@@ -33,8 +33,8 @@ const HomePage = () => {
           />
         </div>
 
-        <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="roomId">Room ID: </label>
+        <div className="form-group">
+          <label htmlFor="roomId">Room ID</label>
           <input
             type="text"
             id="roomId"
@@ -45,8 +45,14 @@ const HomePage = () => {
           />
         </div>
 
-        <button type="submit" style={{ padding: '10px 20px' }}>Join or Create Room</button>
+        <button type="submit">Join or Create Room</button>
       </form>
+
+      <footer>
+        <p>
+          Built with 💻 by <a href="#">Innovators</a>
+        </p>
+      </footer>
     </div>
   );
 };

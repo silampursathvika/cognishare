@@ -1,0 +1,102 @@
+/* Editor.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #1e1e2f; /* Dark background for contrast */
+    color: #ffffff;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #2c2c38; /* Editor container background */
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #4abaf7; /* Highlight color for heading */
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #c4c4c4;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .select, 
+  textarea, 
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .select {
+    background-color: #2b2b40;
+    color: #fff;
+    border: 1px solid #4abaf7;
+  }
+  
+  textarea {
+    background: #252533; /* Darker area for input */
+    color: #ffffff;
+    resize: none;
+    border: 1px solid #4abaf7;
+  }
+  
+  textarea:focus, 
+  .select:focus {
+    outline: none;
+    border-color: #72dbff; /* Focus border color */
+    box-shadow: 0 0 10px rgba(114, 219, 255, 0.5);
+  }
+  
+  button {
+    background: linear-gradient(45deg, #4abaf7, #72dbff);
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background: linear-gradient(45deg, #72dbff, #4abaf7);
+    transform: scale(1.05);
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  pre {
+    background-color: #1e1e2f; /* Dark background for output */
+    padding: 15px;
+    border-radius: 6px;
+    color: #4abaf7;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    border: 1px solid #4abaf7;
+  }
+  
+  textarea::placeholder {
+    color: #808080; /* Placeholder color */
+  }
+  
+  .code-editor {
+    margin-bottom: 20px;
+    border: 1px solid #4abaf7;
+    border-radius: 6px;
+  }
+  

@@ -1,16 +1,17 @@
-import React, { useState,useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { python } from '@codemirror/lang-python';
-import { java } from '@codemirror/lang-java';
-import { html } from '@codemirror/lang-html';
-import { cpp } from '@codemirror/lang-cpp'; // C++ language
-import { go } from '@codemirror/lang-go'; // Go language
-import { php } from '@codemirror/lang-php'; // PHP language
-import { rust } from '@codemirror/lang-rust'; // Rust language
-import { oneDark } from '@codemirror/theme-one-dark'; // New theme import
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
+import { java } from "@codemirror/lang-java";
+import { html } from "@codemirror/lang-html";
+import { cpp } from "@codemirror/lang-cpp";
+import { go } from "@codemirror/lang-go";
+import { php } from "@codemirror/lang-php";
+import { rust } from "@codemirror/lang-rust";
+import { oneDark } from "@codemirror/theme-one-dark";
 import io from "socket.io-client";
+import "./Editor.css"; // Importing the CSS
 
 const languageExtensions = {
   JavaScript: javascript,
@@ -36,6 +37,7 @@ const Editor = () => {
     setSocket(socket);
 
     socket.emit("join-room", roomId);
+    console.log("Joining room", roomId);
 
     socket.on("code-update", (updatedCode) => {
       setCode(updatedCode);
@@ -50,14 +52,9 @@ const Editor = () => {
     };
   }, [roomId]);
 
-//   // Update input state when textarea changes
-//   const handleInputChange = (e) => {
-//     setInput(e.target.value);
-//   };
-
   const runCode = async () => {
     setOutput("Running...");
-  
+
     try {
       const response = await fetch("https://emkc.org/api/v2/piston/execute", {
         method: "POST",
@@ -66,19 +63,18 @@ const Editor = () => {
         },
         body: JSON.stringify({
           language: language.toLowerCase(),
-          version: "*", // Use the latest version
+          version: "*",
           files: [{ name: `main.${language.toLowerCase()}`, content: code }],
           stdin: input,
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`API Error: ${response.statusText}`);
       }
-  
+
       const result = await response.json();
-  
-      // Check for output or errors
+
       if (result.run && result.run.output) {
         setOutput(result.run.output);
       } else if (result.run && result.run.stderr) {
@@ -90,6 +86,7 @@ const Editor = () => {
       setOutput(`Error: ${error.message}`);
     }
   };
+
   const handleCodeChange = (value) => {
     setCode(value);
     if (socket) {
@@ -105,13 +102,16 @@ const Editor = () => {
   };
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
+    <div className="container">
       <h2>Multi-Language Code Editor</h2>
 
-      <div style={{ marginBottom: '10px' }}>
-        <label htmlFor="language">Select Language: </label>
+      <div>
+        <label className="label" htmlFor="language">
+          Select Language:
+        </label>
         <select
           id="language"
+          className="select"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
         >
@@ -123,29 +123,34 @@ const Editor = () => {
         </select>
       </div>
 
-      <CodeMirror
-        value={code}
-        height="300px"
-        extensions={[languageExtensions[language]()]}
-        theme={oneDark} // Apply the new theme
-        onChange={(value) => handleCodeChange(value)}
-      />
+      <div className="code-editor">
+        <CodeMirror
+          value={code}
+          height="300px"
+          extensions={[languageExtensions[language]()]}
 
-      <div style={{ marginTop: '20px' }}>
-        <label htmlFor="input">Input: </label>
+          theme={oneDark}
+          onChange={(value) => handleCodeChange(value)}
+        />
+      </div>
+
+      <div>
+        <label className="label" htmlFor="input">
+          Input:
+        </label>
         <textarea
           id="input"
           value={input}
           onChange={handleInputChange}
           rows="4"
-          style={{ width: '100%', marginBottom: '10px' }}
+          placeholder="Enter input for your program..."
         ></textarea>
-        <button onClick={runCode} style={{ padding: '10px 20px' }}>Run</button>
+        <button onClick={runCode}>Run</button>
       </div>
 
-      <div style={{ marginTop: '20px' }}>
+      <div>
         <h3>Output:</h3>
-        <pre style={{ background: '#f4f4f4', padding: '10px' }}>{output}</pre>
+        <pre>{output}</pre>
       </div>
     </div>
   );
