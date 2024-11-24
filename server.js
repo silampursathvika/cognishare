@@ -43,6 +43,19 @@ io.on("connection", (socket) => {
     }
   });
 
+  // Add to your existing server code
+  socket.on("language-change", (roomId, language) => {
+    if (roomData[roomId]) {
+      roomData[roomId].language = language; // Update room language
+      socket.to(roomId).emit("language-update", language); // Broadcast to others in the room
+    }
+  });
+
+  socket.on("chat-message", (msg) => {
+    const { roomId, message, sender } = msg;
+    io.to(roomId).emit("chat-message", { sender, message });
+  });
+
   socket.on("disconnect", () => {
     console.log(`User disconnected: ${socket.id}`);
   });

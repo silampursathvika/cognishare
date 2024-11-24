@@ -1,118 +1,210 @@
-/* Editor.css */
+/* General Body Styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background-color: #1e1e2f; /* Dark background for contrast */
-    color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #1e1e2f; /* Dark background for contrast */
+  color: #ffffff;
+}
+
+/* Main Container */
+.editor-container {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full screen height */
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+/* Heading Style */
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #4abaf7; /* Highlight color for heading */
+  width: 100%;
+}
+
+/* Label Styles */
+.label {
+  font-weight: bold;
+  color: #c4c4c4;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Language Selection */
+.select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2b2b40;
+  color: #fff;
+  border: 1px solid #4abaf7;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #72dbff;
+  box-shadow: 0 0 10px rgba(114, 219, 255, 0.5);
+}
+
+/* Code Editor Styles */
+.editor-main {
+  flex: 3; /* 75% of the container */
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px; /* Space between editor and chat */
+}
+
+.code-editor {
+  margin-bottom: 20px;
+  border: 1px solid #4abaf7;
+  border-radius: 6px;
+}
+
+.run-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #4abaf7, #72dbff);
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(45deg, #72dbff, #4abaf7);
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Terminal Styles (Input/Output) */
+.terminals {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.terminal {
+  flex: 1;
+  background-color: #252533;
+  border: 1px solid #4abaf7;
+  border-radius: 6px;
+  padding: 15px;
+  height: 200px; /* Fixed height for uniformity */
+  overflow-y: auto;
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+textarea::placeholder {
+  color: #808080; /* Placeholder color */
+}
+
+pre {
+  color: #4abaf7;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+}
+
+/* Chat Component Styles */
+.editor-chat {
+  flex: 1; /* 25% of the container */
+  background-color: #252533;
+  border-radius: 6px;
+  border: 1px solid #4abaf7;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Allow chat box to take full height */
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-box {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #1e1e2f;
+  color: #fff;
+}
+
+.chat-message {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: #4abaf7;
+  color: #fff;
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 5px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #1e1e2f;
+  color: #fff;
+}
+
+.chat-send-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.chat-send-button:hover {
+  background-color: #0056b3;
+}
+
+/* Media Query for Responsiveness */
+@media (max-width: 768px) {
+  .editor-container {
+    flex-direction: column; /* Stack editor and chat vertically */
   }
-  
-  .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #2c2c38; /* Editor container background */
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+  .editor-main, .editor-chat {
+    flex: 1 1 100%; /* Take full width on smaller screens */
+    margin-right: 0; /* No right margin when stacked */
   }
-  
-  h2 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #4abaf7; /* Highlight color for heading */
+
+  .chat-container {
+    flex-direction: row; /* Allow chat components to be horizontal on smaller screens */
   }
-  
-  .label {
-    font-weight: bold;
-    color: #c4c4c4;
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  .select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: none;
-    border-radius: 6px;
-    background-color: #2b2b40;
-    color: #fff;
-    border: 1px solid #4abaf7;
-  }
-  
-  .select:focus {
-    outline: none;
-    border-color: #72dbff;
-    box-shadow: 0 0 10px rgba(114, 219, 255, 0.5);
-  }
-  
-  .code-editor {
-    margin-bottom: 20px;
-    border: 1px solid #4abaf7;
-    border-radius: 6px;
-  }
-  
-  .terminals {
-    display: flex;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .terminal {
-    flex: 1;
-    background-color: #252533;
-    border: 1px solid #4abaf7;
-    border-radius: 6px;
-    padding: 15px;
-    height: 200px; /* Fixed height for uniformity */
-    overflow-y: auto;
-  }
-  
-  textarea {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    color: #ffffff;
-    border: none;
-    outline: none;
-    resize: none;
-    font-family: 'Courier New', Courier, monospace;
-  }
-  
-  textarea::placeholder {
-    color: #808080; /* Placeholder color */
-  }
-  .run-button-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  
-  button {
-    padding: 10px 20px;
-    background: linear-gradient(45deg, #4abaf7, #72dbff);
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  
-  button:hover {
-    background: linear-gradient(45deg, #72dbff, #4abaf7);
-    transform: scale(1.05);
-  }
-  
-  button:active {
-    transform: scale(0.98);
-  }
-  
-  pre {
-    color: #4abaf7;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1rem;
-  }
-  
+}

@@ -11,6 +11,7 @@ import { php } from "@codemirror/lang-php";
 import { rust } from "@codemirror/lang-rust";
 import { oneDark } from "@codemirror/theme-one-dark";
 import io from "socket.io-client";
+import Chat from "../chat/Chat.js";
 import "./Editor.css"; // Importing the CSS
 
 const languageExtensions = {
@@ -45,6 +46,10 @@ const Editor = () => {
 
     socket.on("input-update", (updatedInput) => {
       setInput(updatedInput);
+    });
+
+    socket.on("language-update", (updatedLanguage) => {
+      setLanguage(updatedLanguage);
     });
 
     return () => {
@@ -101,60 +106,73 @@ const Editor = () => {
     }
   };
 
+  const handleLanguageChange = (e) => {
+    const selectedLanguage = e.target.value;
+    setLanguage(selectedLanguage);
+
+    if (socket) {
+      socket.emit("language-change", roomId, selectedLanguage);
+    }
+  };
+
   return (
-    <div className="container">
-      <h2>Multi-Language Code Editor</h2>
+    <div className="editor-container">
+      <div className="editor-main">
+        <h2>Multi-Language Code Editor</h2>
 
-      <div>
-        <label className="label" htmlFor="language">
-          Select Language:
-        </label>
-        <select
-          id="language"
-          className="select"
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-        >
-          {Object.keys(languageExtensions).map((lang) => (
-            <option key={lang} value={lang}>
-              {lang}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="code-editor">
-        <CodeMirror
-          value={code}
-          height="300px"
-          extensions={[languageExtensions[language]()]}
-
-          theme={oneDark}
-          onChange={(value) => handleCodeChange(value)}
-        />
-      </div>
-
-      <div className="run-button-container">
-        <button onClick={runCode}>Run</button>
-      </div>
-
-      <div className="terminals">
-        <div className="terminal">
-          <label className="label">Input</label>
-          <textarea
-            value={input}
-            onChange={handleInputChange}
-            placeholder="Enter input for your program..."
-          ></textarea>
+        <div>
+          <label className="label" htmlFor="language">
+            Select Language:
+          </label>
+          <select
+            id="language"
+            className="select"
+            value={language}
+            onChange={handleLanguageChange}
+          >
+            {Object.keys(languageExtensions).map((lang) => (
+              <option key={lang} value={lang}>
+                {lang}
+              </option>
+            ))}
+          </select>
         </div>
 
-        <div className="terminal">
-          <label className="label">Output</label>
-          <pre>{output}</pre>
+        <div className="code-editor">
+          <CodeMirror
+            value={code}
+            height="300px"
+            extensions={[languageExtensions[language]()]}
+            theme={oneDark}
+            onChange={(value) => handleCodeChange(value)}
+          />
+        </div>
+
+        <div className="run-button-container">
+          <button onClick={runCode}>Run</button>
+        </div>
+
+        <div className="terminals">
+          <div className="terminal">
+            <label className="label">Input</label>
+            <textarea
+              value={input}
+              onChange={handleInputChange}
+              placeholder="Enter input for your program..."
+            ></textarea>
+          </div>
+
+          <div className="terminal">
+            <label className="label">Output</label>
+            <pre>{output}</pre>
+          </div>
         </div>
       </div>
 
-      
+      {/* Chat Component */}
+      <div className="editor-chat">
+        <Chat roomId={roomId} />
+      </div>
     </div>
   );
 };
