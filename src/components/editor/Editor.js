@@ -134,24 +134,27 @@ const Editor = () => {
         />
       </div>
 
-      <div>
-        <label className="label" htmlFor="input">
-          Input:
-        </label>
-        <textarea
-          id="input"
-          value={input}
-          onChange={handleInputChange}
-          rows="4"
-          placeholder="Enter input for your program..."
-        ></textarea>
+      <div className="run-button-container">
         <button onClick={runCode}>Run</button>
       </div>
 
-      <div>
-        <h3>Output:</h3>
-        <pre>{output}</pre>
+      <div className="terminals">
+        <div className="terminal">
+          <label className="label">Input</label>
+          <textarea
+            value={input}
+            onChange={handleInputChange}
+            placeholder="Enter input for your program..."
+          ></textarea>
+        </div>
+
+        <div className="terminal">
+          <label className="label">Output</label>
+          <pre>{output}</pre>
+        </div>
       </div>
+
+      
     </div>
   );
 };
